@@ -1,0 +1,40 @@
+<p-toast />
+<p-confirmDialog />
+
+<p-table [value]="rfidcards" [tableStyle]="{ 'min-width': '50rem' }"
+         styleClass="p-datatable-striped">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:10%"></th>
+      <th>id</th>
+      <th>RFID</th>
+      <th>Type</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rfidcard>
+    <tr>
+      <td><p-button icon="pi pi-pencil" (onClick)="setCurrentRFIDCard(rfidcard); showDialog()" title="Modify" [style]="{'margin-right':'10px'}"/><p-button icon="pi pi-trash" (onClick)="confirm(rfidcard)" title="Remove" /></td>
+      <td>{{ rfidcard.id }}</td>
+      <td>{{ rfidcard.rfid }}</td>
+      <td>{{ rfidcard.type }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-button icon="pi pi-file" (onClick)="createNewRFIDCard(); displayDialog=true" label="Create"></p-button>
+
+<p-dialog header="Edit/Create RFID Card" [modal]="true" [(visible)]="displayDialog" [style]="{ width: '25rem' }" (onHide)="displayDialog = false">
+  <span class="p-text-secondary block mb-5">Update RFID card.</span>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="rfid" class="font-semibold w-6rem">RFID</label>
+    <input pInputText id="rfid" class="flex-auto" autocomplete="off" [(ngModel)]="currentRFIDCard.rfid"/>
+  </div>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="type" class="font-semibold w-6rem">Type</label>
+    <p-dropdown id="rfidcard-type" [options]="types" [(ngModel)]="currentRFIDCard.type"/>
+  </div>
+  <div class="flex justify-content-end gap-2">
+    <p-button label="Cancel" severity="secondary" (onClick)="displayDialog = false" />
+    <p-button label="Save" (onClick)="displayDialog = false; saveCurrentRFIDCard()" />
+  </div>
+</p-dialog>

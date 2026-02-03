@@ -1,0 +1,52 @@
+<p-toast />
+<p-confirmDialog />
+
+<p-table [value]="rfidcardusers" [tableStyle]="{ 'min-width': '50rem' }"
+         styleClass="p-datatable-striped">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:10%"></th>
+      <th>id</th>
+      <th>Period start</th>
+      <th>Period end</th>
+      <th>RFID</th>
+      <th>Client name</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rfidcarduser>
+    <tr>
+      <td><p-button icon="pi pi-pencil" (onClick)="setCurrentRFIDCardUser(rfidcarduser); showDialog()" title="Modify" [style]="{'margin-right':'10px'}"/><p-button icon="pi pi-trash" (onClick)="confirm(rfidcarduser)" title="Remove" /></td>
+      <td>{{ rfidcarduser.id }}</td>
+      <td>{{ rfidcarduser.periodStart | date: 'yyyy.MM.dd'}}</td>
+      <td>{{ rfidcarduser.periodEnd | date: 'yyyy.MM.dd'}}</td>
+      <td>{{ rfidcarduser.rfidCard.rfid }}</td>
+      <td>{{ rfidcarduser.client.name }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-button icon="pi pi-file" (onClick)="createNewRFIDCardUser(); displayDialog=true" label="Create"></p-button>
+
+<p-dialog header="Edit/Create RFID Card User" [modal]="true" [(visible)]="displayDialog" [style]="{ width: '40%', height: '70%' }" (onHide)="displayDialog = false">
+  <span class="p-text-secondary block mb-5">Update RFID card user.</span>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="start-period" class="font-semibold w-6rem">Start period</label>
+    <p-calendar id="start-period" dateFormat="yy.mm.dd" [showIcon]="true" [(ngModel)]="currentRFIDCardUser.periodStart"/>
+  </div>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="period-end" class="font-semibold w-6rem">Period end</label>
+    <p-calendar id="period-end" dateFormat="yy.mm.dd" [showIcon]="true" [(ngModel)]="currentRFIDCardUser.periodEnd"/>
+  </div>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="rfidcarduser-client" class="font-semibold w-6rem">Client</label>
+    <p-dropdown id="rfidcarduser-client" [options]="clients" [(ngModel)]="currentRFIDCardUser.client" optionLabel="name" dataKey="id"/>
+  </div>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="rfidcarduser-card" class="font-semibold w-6rem">Card</label>
+    <p-dropdown id="rfidcarduser-card" [options]="rfidCards" [(ngModel)]="currentRFIDCardUser.rfidCard" optionLabel="rfid" dataKey="id"/>
+  </div>
+  <div class="flex justify-content-end gap-2">
+    <p-button label="Cancel" severity="secondary" (onClick)="displayDialog = false" />
+    <p-button label="Save" (onClick)="displayDialog = false; saveCurrentRFIDCardUser()" />
+  </div>
+</p-dialog>

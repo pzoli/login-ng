@@ -1,0 +1,11 @@
+{
+  "home": {
+    "title": "Homepage"
+  },
+  "menu": {
+    "logout": "Logout",
+    "home": "Home",
+    "RFID management" : "RFID management",
+    "RFID card": "RFID card"
+  }
+}

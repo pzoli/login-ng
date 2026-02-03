@@ -1,0 +1,52 @@
+{
+  "items": [
+    {
+      "label": "Kezdőlap",
+      "url": ",/home",
+      "target": "_self",
+      "role": "user"
+    },
+    {
+      "label": "RFID kezelés",
+      "role": "manager",
+      "items": [
+        {
+          "label": "Ügyfelek",
+          "url": "/client",
+          "target": "_self",
+          "role": "manager"
+        },
+        {
+          "label": "RFID kártya",
+          "url": "/rfid-card",
+          "target": "_self",
+          "role": "manager"
+        },
+        {
+          "label": "RFID kártya olvasók",
+          "url": "/rfid-card-reader",
+          "target": "_self",
+          "role": "manager"
+        },
+        {
+          "label": "RFID kártya felhasználók",
+          "url": "/rfid-card-user",
+          "target": "_self",
+          "role": "manager"
+        },
+        {
+          "label": "RFID log bejegyzések",
+          "url": "/rfid-log-entry",
+          "target": "_self",
+          "role": "manager"
+        },
+        {
+          "label": "RFID sikertelen naplók",
+          "url": "/rfid-failed-log",
+          "target": "_self",
+          "role": "manager"
+        }
+      ]
+    }
+  ]
+}

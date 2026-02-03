@@ -1,0 +1,53 @@
+{
+  "items": [
+    {
+      "label": "Home",
+      "url": ",/home",
+      "target": "_self",
+      "role": "user"
+    },
+    {
+      "label": "RFID management",
+      "role": "manager",
+      "items": [
+        {
+          "label": "Clients",
+          "url": "/client",
+          "target": "_self",
+          "role": "manager"
+        },
+        {
+          "label": "RFID card",
+          "url": "/rfid-card",
+          "target": "_self",
+          "role": "manager"
+        },
+        {
+          "label": "RFID card reader",
+          "url": "/rfid-card-reader",
+          "target": "_self",
+          "role": "manager"
+        },
+        {
+          "label": "RFID card user",
+          "url": "/rfid-card-user",
+          "target": "_self",
+          "role": "manager"
+        },
+        {
+          "label": "RFID log entry",
+          "url": "/rfid-log-entry",
+          "target": "_self",
+          "role": "manager"
+        },
+        {
+
+          "label": "RFID failed logs",
+          "url": "/rfid-failed-log",
+          "target": "_self",
+          "role": "manager"
+        }
+      ]
+    }
+  ]
+}

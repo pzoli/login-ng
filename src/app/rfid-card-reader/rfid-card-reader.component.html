@@ -1,0 +1,52 @@
+<p-toast />
+<p-confirmDialog />
+
+<p-table [value]="rfidcardreaders" [tableStyle]="{ 'min-width': '50rem' }"
+         styleClass="p-datatable-striped">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:10%"></th>
+      <th>id</th>
+      <th>Period Start</th>
+      <th>Period End</th>
+      <th>Reader ID</th>
+      <th>Comment</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rfidcardreader>
+    <tr>
+      <td><p-button icon="pi pi-pencil" (onClick)="setCurrentRFIDCardReader(rfidcardreader); showDialog()" title="Modify" [style]="{'margin-right':'10px'}"/><p-button icon="pi pi-trash" (onClick)="confirm(rfidcardreader)" title="Remove" /></td>
+      <td>{{ rfidcardreader.id }}</td>
+      <td>{{ rfidcardreader.periodStart | date: 'yyyy.MM.dd' }}</td>
+      <td>{{ rfidcardreader.periodEnd | date: 'yyyy.MM.dd' }}</td>
+      <td>{{ rfidcardreader.readerId }}</td>
+      <td>{{ rfidcardreader.comment }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-button icon="pi pi-file" (onClick)="createNewRFIDCardReader(); displayDialog=true" label="Create"></p-button>
+
+<p-dialog header="Edit/Create RFID Card Reader" [modal]="true" [(visible)]="displayDialog" [style]="{ width: '50%', height: '60%' }" (onHide)="displayDialog = false">
+  <span class="p-text-secondary block mb-5">Update RFID card reader.</span>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="start-period" class="font-semibold w-6rem">Start period</label>
+    <p-calendar id="start-period" dateFormat="yy.mm.dd" [showIcon]="true" [(ngModel)]="currentRFIDCardReader.periodStart"/>
+  </div>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="end-period" class="font-semibold w-6rem">End period</label>
+    <p-calendar id="end-period" dateFormat="yy.mm.dd" [showIcon]="true" [(ngModel)]="currentRFIDCardReader.periodEnd"/>
+  </div>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="readerid" class="font-semibold w-6rem">Reader ID</label>
+    <input pInputText id="readerid" class="flex-auto" autocomplete="off" [(ngModel)]="currentRFIDCardReader.readerId"/>
+  </div>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="comment" class="font-semibold w-6rem">Comment</label>
+    <input pInputText id="comment" class="flex-auto" autocomplete="off" [(ngModel)]="currentRFIDCardReader.comment"/>
+  </div>
+  <div class="flex justify-content-end gap-2">
+    <p-button label="Cancel" severity="secondary" (onClick)="displayDialog = false" />
+    <p-button label="Save" (onClick)="displayDialog = false; saveCurrentRFIDCardReader()" />
+  </div>
+</p-dialog>

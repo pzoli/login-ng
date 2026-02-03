@@ -1,0 +1,46 @@
+<p-toast />
+<p-confirmDialog />
+
+<p-table [value]="rfidfailedlogs" [tableStyle]="{ 'min-width': '50rem' }"
+         styleClass="p-datatable-striped">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:10%"></th>
+      <th>id</th>
+      <th>RFID</th>
+      <th>RFIDReaderId</th>
+      <th>log date</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rfidfailedlogs>
+    <tr>
+      <td><p-button icon="pi pi-pencil" (onClick)="setCurrentRFIDFailedLog(rfidfailedlogs); showDialog()" title="Modify" [style]="{'margin-right':'10px'}"/><p-button icon="pi pi-trash" (onClick)="confirm(rfidfailedlogs)" title="Remove" /></td>
+      <td>{{ rfidfailedlogs.id }}</td>
+      <td>{{ rfidfailedlogs.rfidCardRfId }}</td>
+      <td>{{ rfidfailedlogs.rfidCardReaderId }}</td>
+      <td>{{ rfidfailedlogs.logDate | date: 'yyyy.MM.dd HH:mm:ss'}}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-button icon="pi pi-file" (onClick)="createNewRFIDFailedLog(); displayDialog=true" label="Create"></p-button>
+
+<p-dialog header="Edit/Create RFID Failed Log Entry" [modal]="true" [(visible)]="displayDialog" [style]="{ width: '40%', height: '60%' }" (onHide)="displayDialog = false">
+  <span class="p-text-secondary block mb-5">Update RFID failed log entry.</span>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="rfid" class="font-semibold w-6rem">RFID</label>
+    <input pInputText id="rfidcard-type" [(ngModel)]="currentRFIDFailedLog.rfidCardReaderId"/>
+  </div>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="type" class="font-semibold w-6rem">ReaderId</label>
+    <input pInputText id="rfidcard-type" [(ngModel)]="currentRFIDFailedLog.rfidCardRfId"/>
+  </div>
+    <div class="flex align-items-center gap-3 mb-3">
+    <label for="period-end" class="font-semibold w-6rem">Log date</label>
+    <p-calendar id="period-end" dateFormat="yy.mm.dd" [showIcon]="true" [(ngModel)]="currentRFIDFailedLog.logDate"/>
+  </div>
+  <div class="flex justify-content-end gap-2">
+    <p-button label="Cancel" severity="secondary" (onClick)="displayDialog = false" />
+    <p-button label="Save" (onClick)="displayDialog = false; saveCurrentRFIDFailedLog()" />
+  </div>
+</p-dialog>
