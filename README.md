@@ -8,3 +8,5 @@ Connected project:
 ## Setup
 
 Please make an SSL key and certificate file, and don't forget to update the package.json file script/start settings at ng serve arguments.
+
+![Screen](docs/login-ng-screen.png)
