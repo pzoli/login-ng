@@ -40,6 +40,9 @@ export class RFIDLogEntryComponent implements OnInit {
     this.rfidlogentries = await this.RFIDLogEntryService.getRFIDLogEntries()
     this.readers = await this.RFIDCardReaderService.getRFIDCardReaders()
     this.users = await this.RFIDCardUserService.getRFIDCardUsers()
+    for(let user of this.users) {
+      user.label = user.client.name + " - " + user.rfidCard.rfid
+    }
   }
 
   createNewRFIDLogEntry() {

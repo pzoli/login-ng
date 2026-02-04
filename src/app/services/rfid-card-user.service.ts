@@ -13,6 +13,7 @@ export interface RFIDCardUser {
   client: Client;
   rfidCard: RFIDCard;
   userName: string;
+  label: string;
 }
 
 @Injectable({

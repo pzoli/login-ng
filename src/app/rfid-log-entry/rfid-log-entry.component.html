@@ -10,6 +10,7 @@
       <th style="width:10%"></th>
       <th>id</th>
       <th>RFIDCardUser name</th>
+      <th>RFIDCard rfid</th>
       <th>RFIDReader comment</th>
       <th>log date</th>
     </tr>
@@ -19,6 +20,7 @@
       <td><p-button icon="pi pi-pencil" (onClick)="setCurrentRFIDLogEntry(rfidlogentries); showDialog()" title="Modify" [style]="{'margin-right':'10px'}"/><p-button icon="pi pi-trash" (onClick)="confirm(rfidlogentries)" title="Remove" /></td>
       <td>{{ rfidlogentries.id }}</td>
       <td>{{ rfidlogentries.rfidCardUser.client.name }}</td>
+      <td>{{ rfidlogentries.rfidCardUser.rfidCard.rfid }}</td>
       <td>{{ rfidlogentries.rfidCardReader.comment }}</td>
       <td>{{ rfidlogentries.logDate | date: 'yyyy.MM.dd HH:mm:ss'}}</td>
     </tr>
@@ -33,7 +35,7 @@
   </div>
   <div class="flex align-items-center gap-3 mb-3">
     <label for="type" class="font-semibold w-6rem">Card User</label>
-    <p-dropdown id="rfidcard-type" [options]="users" [(ngModel)]="currentRFIDLogEntry.rfidCardUser" optionLabel="client.name" dataKey="id"/>
+    <p-dropdown id="rfidcard-type" [options]="users" [(ngModel)]="currentRFIDLogEntry.rfidCardUser" optionLabel="label" dataKey="id"/>
   </div>
     <div class="flex align-items-center gap-3 mb-3">
     <label for="period-end" class="font-semibold w-6rem">Log date</label>
