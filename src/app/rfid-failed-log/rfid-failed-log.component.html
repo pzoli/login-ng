@@ -2,6 +2,7 @@
 <p-confirmDialog />
 
 <p-table [value]="rfidfailedlogs" [tableStyle]="{ 'min-width': '50rem' }"
+         [paginator]="true" [lazy]="true" [rows]="pageSize" [totalRecords]="totalRecords" (onPage)="onPageChange($event)"
          styleClass="p-datatable-striped">
   <ng-template pTemplate="header">
     <tr>

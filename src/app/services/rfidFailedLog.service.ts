@@ -22,8 +22,13 @@ export class RFIDFailedLogService {
 
   }
 
-  public async getRFIDFailedLogs(): Promise<RFIDFailedLog[]> {
-    const result = (await this.httpClient.getInstance()).get("/api/rfid/failedlog",{}).then(res => { return res.data});
+  public async getRFIDFailedLogs(page: number, size: number): Promise<RFIDFailedLog[]> {
+    const result = (await this.httpClient.getInstance()).get("/api/rfid/failedlog", { params: { page, size } }).then(res => { return res.data});
+    return await result;
+  }
+
+  public async getRFIDFailedLogsTotalCount(): Promise<number> {
+    const result = (await this.httpClient.getInstance()).get("/api/rfid/failedlog/total-row-count", {}).then(res => { return res.data});
     return await result;
   }
 

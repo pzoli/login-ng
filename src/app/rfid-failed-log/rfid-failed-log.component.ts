@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import { RFIDFailedLog as RFIDFailedLog, RFIDFailedLogService } from '../services/rfidFailedLog.service';
+import { TablePageEvent } from 'primeng/table';
 
 
 @Component({
@@ -14,6 +15,9 @@ export class RFIDFailedLogComponent implements OnInit {
   public rfidfailedlogs: RFIDFailedLog[] = [];
   public currentRFIDFailedLog: RFIDFailedLog = {} as RFIDFailedLog;
   public displayDialog = false;
+  public page = 0;
+  public pageSize = 10;
+  public totalRecords = 0;
   private pastDate!: Date;
 
   constructor(private RFIDFailedLogService: RFIDFailedLogService, private confirmationService: ConfirmationService, private messageService: MessageService) {
@@ -29,11 +33,13 @@ export class RFIDFailedLogComponent implements OnInit {
     } else {
       this.currentRFIDFailedLog = await this.RFIDFailedLogService.saveRFIDFailedLog(this.currentRFIDFailedLog)
     }
-    this.rfidfailedlogs = await this.RFIDFailedLogService.getRFIDFailedLogs()
+    this.totalRecords = await this.RFIDFailedLogService.getRFIDFailedLogsTotalCount()
+    this.rfidfailedlogs = await this.RFIDFailedLogService.getRFIDFailedLogs(this.page, this.pageSize)
   }
 
   async ngOnInit() {
-    this.rfidfailedlogs = await this.RFIDFailedLogService.getRFIDFailedLogs()
+    this.totalRecords = await this.RFIDFailedLogService.getRFIDFailedLogsTotalCount()
+    this.rfidfailedlogs = await this.RFIDFailedLogService.getRFIDFailedLogs(this.page, this.pageSize)
   }
 
   createNewRFIDFailedLog() {
@@ -42,7 +48,14 @@ export class RFIDFailedLogComponent implements OnInit {
 
   async removeRFIDFailedLog(rfidFailedLog: RFIDFailedLog) {
     await this.RFIDFailedLogService.removeRFIDFailedLog(rfidFailedLog.id)
-    this.rfidfailedlogs = await this.RFIDFailedLogService.getRFIDFailedLogs()
+    this.totalRecords = await this.RFIDFailedLogService.getRFIDFailedLogsTotalCount()
+    this.rfidfailedlogs = await this.RFIDFailedLogService.getRFIDFailedLogs(this.page, this.pageSize)
+  }
+
+  async onPageChange(event: TablePageEvent) {
+    this.pageSize = event.rows;
+    this.page = Math.floor(event.first / this.pageSize);
+    this.rfidfailedlogs = await this.RFIDFailedLogService.getRFIDFailedLogs(this.page, this.pageSize);
   }
 
   confirm(rfidFailedLog: RFIDFailedLog) {
