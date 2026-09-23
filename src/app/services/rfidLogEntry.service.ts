@@ -22,8 +22,13 @@ export class RFIDLogEntryService {
 
   }
 
-  public async getRFIDLogEntries(): Promise<RFIDLogEntry[]> {
-    const result = (await this.httpClient.getInstance()).get("/api/rfid/logentry",{}).then(res => { return res.data});
+  public async getRFIDLogEntries(page: number, size: number): Promise<RFIDLogEntry[]> {
+    const result = (await this.httpClient.getInstance()).get("/api/rfid/logentry", { params: { page, size } }).then(res => { return res.data });
+    return await result;
+  }
+
+  public async getRFIDLogEntriesTotalCount(): Promise<number> {
+    const result = (await this.httpClient.getInstance()).get("/api/rfid/logentry/total-row-count", { }).then(res => { return res.data });
     return await result;
   }
 

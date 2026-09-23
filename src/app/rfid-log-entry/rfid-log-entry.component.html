@@ -4,6 +4,7 @@
 <p-button icon="pi pi-file" (onClick)="createNewRFIDLogEntry(); displayDialog=true" label="Create"></p-button>
 
 <p-table [value]="rfidlogentries" [tableStyle]="{ 'min-width': '50rem' }"
+         [paginator]="true" [lazy]="true" [rows]="pageSize" [totalRecords]="totalRecords" (onPage)="onPageChange($event)"
          styleClass="p-datatable-striped">
   <ng-template pTemplate="header">
     <tr>

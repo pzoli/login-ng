@@ -3,6 +3,7 @@ import {RFIDLogEntry, RFIDLogEntryService} from '../services/rfidLogEntry.servic
 import {ConfirmationService, MessageService} from 'primeng/api';
 import { RFIDCardReader, RFIDCardReaderService } from '../services/rfid-card-reader.service ';
 import { RFIDCardUser, RFIDCardUserService } from '../services/rfid-card-user.service';
+import { TablePageEvent } from 'primeng/table';
 
 
 @Component({
@@ -18,6 +19,9 @@ export class RFIDLogEntryComponent implements OnInit {
   public users: RFIDCardUser[] = [];
   public currentRFIDLogEntry: RFIDLogEntry = {} as RFIDLogEntry;
   public displayDialog = false;
+  public page = 0;
+  public pageSize = 10;
+  public totalRecords = 0;
   private pastDate!: Date;
 
   constructor(private RFIDCardUserService: RFIDCardUserService, private RFIDCardReaderService: RFIDCardReaderService, public RFIDLogEntryService: RFIDLogEntryService, private confirmationService: ConfirmationService, private messageService: MessageService) {
@@ -33,11 +37,13 @@ export class RFIDLogEntryComponent implements OnInit {
     } else {
       this.currentRFIDLogEntry = await this.RFIDLogEntryService.saveRFIDLogEntry(this.currentRFIDLogEntry)
     }
-    this.rfidlogentries = await this.RFIDLogEntryService.getRFIDLogEntries()
+    this.totalRecords = await this.RFIDLogEntryService.getRFIDLogEntriesTotalCount()
+    this.rfidlogentries = await this.RFIDLogEntryService.getRFIDLogEntries(this.page, this.pageSize)
   }
 
   async ngOnInit() {
-    this.rfidlogentries = await this.RFIDLogEntryService.getRFIDLogEntries()
+    this.totalRecords = await this.RFIDLogEntryService.getRFIDLogEntriesTotalCount()
+    this.rfidlogentries = await this.RFIDLogEntryService.getRFIDLogEntries(this.page, this.pageSize)
     this.readers = await this.RFIDCardReaderService.getRFIDCardReaders()
     this.users = await this.RFIDCardUserService.getRFIDCardUsers()
     for(let user of this.users) {
@@ -51,7 +57,14 @@ export class RFIDLogEntryComponent implements OnInit {
 
   async removeRFIDLogEntry(rfidLogEntry: RFIDLogEntry) {
     await this.RFIDLogEntryService.removeRFIDLogEntry(rfidLogEntry.id)
-    this.rfidlogentries = await this.RFIDLogEntryService.getRFIDLogEntries()
+    this.totalRecords = await this.RFIDLogEntryService.getRFIDLogEntriesTotalCount()
+    this.rfidlogentries = await this.RFIDLogEntryService.getRFIDLogEntries(this.page, this.pageSize)
+  }
+
+  async onPageChange(event: TablePageEvent) {
+    this.pageSize = event.rows;
+    this.page = Math.floor(event.first / this.pageSize);
+    this.rfidlogentries = await this.RFIDLogEntryService.getRFIDLogEntries(this.page, this.pageSize);
   }
 
   confirm(rfidLogEntry: RFIDLogEntry) {
